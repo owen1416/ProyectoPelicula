@@ -28,10 +28,6 @@ public class    AuthController {
     @Autowired
     AuthService authService;
 
-    @GetMapping("/test")
-    public ResponseEntity<String> test() {
-        return ResponseEntity.ok("Funcionando en Railway");
-    }
 
     @PostMapping("/login")
     public ResponseEntity<JwtAuthResponse> RegistroUsuario(@RequestBody LoginRequest loginRequest) {
