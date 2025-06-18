@@ -13,14 +13,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/auth")
-public class AuthController {
+public class    AuthController {
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -30,6 +27,11 @@ public class AuthController {
 
     @Autowired
     AuthService authService;
+
+    @GetMapping("/test")
+    public ResponseEntity<String> test() {
+        return ResponseEntity.ok("Funcionando en Railway");
+    }
 
     @PostMapping("/login")
     public ResponseEntity<JwtAuthResponse> RegistroUsuario(@RequestBody LoginRequest loginRequest) {
