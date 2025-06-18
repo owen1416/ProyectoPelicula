@@ -19,40 +19,40 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 public class SegurityConfig {
 
-    // Inyectamos el filtro JWT que crearemos más adelante
-    private final JwtAuthenticationFilter  jwtAuthenticationFilter;
+                        // Inyectamos el filtro JWT que crearemos más adelante
+                        private final JwtAuthenticationFilter  jwtAuthenticationFilter;
 
-    public SegurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter){
-        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-    }
+                        public SegurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter){
+                            this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+                        }
 
-    // Exponer el AuthenticationManager (necesario para el login)
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws  Exception{
-        return authenticationConfiguration.getAuthenticationManager();
-    }
+                        // Exponer el AuthenticationManager (necesario para el login)
+                        @Bean
+                        public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws  Exception{
+                            return authenticationConfiguration.getAuthenticationManager();
+                        }
 
-    // Define cómo se codificarán las contraseñas
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
+                        // Define cómo se codificarán las contraseñas
+                        @Bean
+                        public PasswordEncoder passwordEncoder(){
+                            return new BCryptPasswordEncoder();
+                        }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws  Exception{
+                        @Bean
+                        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws  Exception{
 
-        http
-        .csrf(csrf -> csrf.disable())  // Deshabilitar CSRF para APIs REST
+                            http
+                            .csrf(csrf -> csrf.disable())  // Deshabilitar CSRF para APIs REST
 
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // No usar sesiones HTTP (usar JWT)
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("api/auth/**").permitAll()// Permite el acceso sin autenticación a la API de login/registro
-                        .anyRequest().authenticated()
-                )
+                                    .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // No usar sesiones HTTP (usar JWT)
+                                    .authorizeHttpRequests(auth -> auth
+                                            .requestMatchers("/api/auth/**").permitAll()// Permite el acceso sin autenticación a la API de login/registro
+                                            .anyRequest().authenticated()
+                                    )
 
-         .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-                return http.build();
+                                    return http.build();
 
 
 
