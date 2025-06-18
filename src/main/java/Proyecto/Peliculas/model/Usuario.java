@@ -1,10 +1,10 @@
 package Proyecto.Peliculas.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -25,10 +25,10 @@ public class Usuario {
     @Column(name = "password", nullable = false)
     private String  password;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE}) // ¡REMOVE añadido!
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(name = "usuario_rol", joinColumns = @JoinColumn(name = "idUsuario"),
             inverseJoinColumns = @JoinColumn(name = "idRol"))
-    private Set<Rol> rol;
+    private Set<Rol> rol  = new HashSet<>();
 
 
     public Usuario() {
